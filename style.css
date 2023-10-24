@@ -1,0 +1,68 @@
+body {
+    perspective: 1000px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    background-color: #f0f0f0;
+  }
+
+  #cube {
+    width: 202px;
+    height: 202px;
+    position: relative;
+    transform-style: preserve-3d;
+   /** animation: rotateCube 10s infinite linear;**/
+  }
+  
+  .face {
+    width: 202px;
+    height: 202px;
+    position: absolute;
+    background-color: rgba(255, 255, 255, 0.8);
+    border: 1px solid #ccc;
+    display: flex;
+    flex-wrap: wrap;  
+  }
+  
+  .front  { transform: translateZ(100px); }
+  .back   { transform: rotateY(180deg) translateZ(100px); }
+  .left   { transform: rotateY(-90deg) translateZ(100px); }
+  .right  { transform: rotateY(90deg) translateZ(100px); }
+  .top    { transform: rotateX(90deg) translateZ(100px); }
+  .bottom { transform: rotateX(-90deg) translateZ(100px); }
+  
+  @keyframes rotateCube {
+    from { transform: rotate3d(1, 1, 0, 0deg); }
+    to   { transform: rotate3d(1, 1, 0, 360deg); }
+  }
+  .square {
+    width: 66px;
+    height: 66px;
+    border: 1px solid #ccc;
+    cursor: pointer;
+  }
+  
+  #palette .color {
+    width: 50px;
+    height: 50px;
+    cursor: pointer;
+ 
+  }
+
+  #palette {
+    position: absolute;
+    left: 0;  /* 左端に配置 */
+    top: 50%;  /* 上下中央に配置 */
+    transform: translateY(-50%);  /* 上下中央に微調整 */
+  }
+  
+  .selected {
+    border: 3px solid black;  /* 選択された色に黒い枠線を追加 */
+  }
+   /**#cube .face .square {
+    width: 66px;
+    height: 66px;
+
+  }
