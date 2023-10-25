@@ -1,11 +1,21 @@
 let cube = document.getElementById('cube');
 let isDragging = false;
 let startX, startY, startRotationX, startRotationY;
+let selectedColor = 'white'; // 初期色
+
+const colorCount = {
+  "red": 0,
+  "green": 0,
+  "blue": 0,
+  "white": 0,
+  "yellow": 0,
+  "orange": 0
+};
 
 // 現在の回転角度を保存する変数
 let rotationX = 0;
 let rotationY = 0;
-
+//マウス押下時のイベント
 cube.addEventListener('mousedown', function(event) {
   isDragging = true;
   startX = event.clientX;
@@ -13,7 +23,7 @@ cube.addEventListener('mousedown', function(event) {
   startRotationX = rotationX;
   startRotationY = rotationY;
 });
-
+//回転の方向と距離の計算
 window.addEventListener('mousemove', function(event) {
   if (isDragging) {
     let dx = event.clientX - startX;
@@ -23,11 +33,11 @@ window.addEventListener('mousemove', function(event) {
     cube.style.transform = `rotateX(${rotationX}deg) rotateY(${rotationY}deg)`;
   }
 });
-
+//マウスアップ時のイベント
 window.addEventListener('mouseup', function(event) {
-  isDragging = false;
+  isDragging = false  ;
 });
-
+//各1/54に対して、色変更のためのクリックとキューブの回転のためのドラッグを距離で識別
 document.querySelectorAll('#cube .face .square').forEach(function(squareDiv) {
     squareDiv.addEventListener('mousedown', function(event) {
         startX = event.clientX;  // mousedown時のマウスのX座標を保存
@@ -40,20 +50,31 @@ document.querySelectorAll('#cube .face .square').forEach(function(squareDiv) {
     
         // mousedown時とmouseup時の座標が同じであれば色を変更
         if (startX === endX && startY === endY) {
+          //同じ色が９か所より多く使われていないかチェック
+          if (!colorCount[selectedColor] || colorCount[selectedColor] < 9) {
+          //色を塗り替える場合、直前の色のカウントを減らす。
+          const currentColor = this.style.backgroundColor; // 現在の色
+          if (colorCount[currentColor] > 0) {
+            colorCount[currentColor] -= 1;
+          }
+          // パレット上に塗付回数を表示
+          if(currentColor!=""){
+          const paletteColorDiv = document.querySelector(`#palette .color[style="background-color: ${currentColor};"]`);
+          const countSpan = paletteColorDiv.querySelector('.count');
+          countSpan.textContent = colorCount[currentColor];
+          }
+          //squareの色変更
           this.style.backgroundColor = selectedColor;
+          // 塗付回数を更新
+          colorCount[selectedColor] = (colorCount[selectedColor] || 0) + 1;
+          // パレット上に塗付回数を表示
+          paletteColorDiv = document.querySelector(`#palette .color[style="background-color: ${selectedColor};"]`);
+          countSpan = paletteColorDiv.querySelector('.count');
+          countSpan.textContent = colorCount[selectedColor];
+          }
         }
     });   
 });
-
-let selectedColor = 'white'; // 初期色
-
-// パレットから色を選択
-document.querySelectorAll('#palette .color').forEach(function(colorDiv) {
-  colorDiv.addEventListener('click', function() {
-    selectedColor = this.style.backgroundColor;
-  });
-});
-
 
 // パレットから色を選択
 document.querySelectorAll('#palette .color').forEach(function(colorDiv) {
