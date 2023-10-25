@@ -48,10 +48,14 @@ body {
     width: 50px;
     height: 50px;
     cursor: pointer;
+    position: relative;
  
   }
 
   #palette {
+    display: flex;
+  justify-content: center;
+  align-items: center;
     position: absolute;
     left: 0;  /* 左端に配置 */
     top: 50%;  /* 上下中央に配置 */
@@ -61,8 +65,15 @@ body {
   .selected {
     border: 3px solid black;  /* 選択された色に黒い枠線を追加 */
   }
-   /**#cube .face .square {
-    width: 66px;
-    height: 66px;
-
-  }
+   /* カウント数（<span>）のスタイリング */
+.count {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  font-size: 18px;  /* フォントサイズを大きく */
+  transform: translate(-50%, -50%);  /* 真ん中に位置させる */
+}
+/* 青のパレットに表示する数字だけ白色にする */
+.blue-count {
+  color: white;
+}
